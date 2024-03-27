@@ -8,6 +8,21 @@ export default class Iterator<T> {
       this.items = chars;
    }
 
+   public skipAny(chars: T[]) {
+      while (chars.includes(this.current())) {
+         this.next();
+      }
+   }
+
+   public readUpTo(upTo: T) {
+      let value = "";
+      while (this.current() != upTo) {
+         value += this.current();
+         this.next();
+      }
+      return value;
+   }
+
    public isDone(): boolean {
       return this.done;
    }
