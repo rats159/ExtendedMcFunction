@@ -11,3 +11,6 @@ Features XMF adds:
 - A special syntax for calling functions with arguments more easily
 
 i dont know how to use markdown
+
+## How to use:
+Currently, it's completely unusable. As of writing this, it doesnt even write files. I started this project like 12 hours ago though so maybe ill make it work soon
