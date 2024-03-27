@@ -1,7 +1,7 @@
-import Iterator from "../Iterator.ts";
-import ParsingMode from "../ParsingMode.ts";
-import * as Assert from "../Assert.ts";
-import * as Commands from "../Command.ts";
+import Iterator from "./Iterator.ts";
+import ParsingMode from "./ParsingMode.ts";
+import * as Assert from "./Assert.ts";
+import * as Commands from "./Command.ts";
 
 export function parseSelector(file: Iterator<string>) {
    let buffer = file.next();
