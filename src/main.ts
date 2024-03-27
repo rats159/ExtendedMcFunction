@@ -25,6 +25,7 @@ while (!file.isDone()) {
          file.skipAny([" ", "\t"]);
          const buffer = file.readUpTo(" ").trim();
          file.next();
+         Assert.isAmong(buffer, Commands.Names);
          switch (buffer as (typeof Commands.Names)[number]) {
             case "execute":
                currentMode = ParsingMode.modes.CommandExecuteStart;
@@ -117,8 +118,6 @@ while (!file.isDone()) {
             case "worldborder":
             case "xp":
                throw new Error(`/${buffer} is not yet implemented`);
-            default:
-               throw new Error(`${buffer} is not a command!`);
          }
          break;
       }
