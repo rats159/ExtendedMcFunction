@@ -1,0 +1,7 @@
+XMF is a superset of regular commands. Any valid .mcfunction file should work the exact same as a .xmf file.
+Features XMF adds:
+    - Inline functions
+    - C-Style macros
+    - Inline math, evaluated at compile-time
+    - A standard library
+    - A special syntax for calling functions with arguments more easily
