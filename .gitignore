@@ -1,3 +1,5 @@
 /.vscode
 *.xmf
 .prettierrc
+/input
+/output

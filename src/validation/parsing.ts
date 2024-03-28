@@ -3,11 +3,45 @@ import ParsingMode from "./ParsingMode.ts";
 import * as Assert from "./Assert.ts";
 import * as Commands from "./Command.ts";
 
+export function validateEntityNBT(NBT: Iterator<string>) {
+   Assert.equals(NBT.current(), "{");
+   NBT.next();
+
+   //quoted or unquoted makes no difference afaik
+   while (1) {
+      let quoted = false;
+      if (NBT.current() == '"') {
+         quoted = true;
+         NBT.next();
+      }
+
+      const tag = quoted ? NBT.readUpTo('"') : NBT.readUpTo(":");
+
+      if (quoted) NBT.next(); //skip the "
+      NBT.next(); //skip the :
+
+      Assert.contains(tag, Commands.EntityNBTTags);
+      const dataType = Commands.getNBTTypeFromTag(
+         tag as (typeof Commands.EntityNBTTags)[number]
+      );
+
+      const data = NBT.readUpToAny([",", "}"]);
+      Assert.equals(dataType.conformsTo(data), true);
+      if (NBT.current() !== ",") {
+         break;
+      }
+      NBT.next();
+   }
+   Assert.equals(NBT.current(), "}");
+   NBT.next();
+   Assert.equals(NBT.next(), "\n");
+}
+
 export function parseSelector(file: Iterator<string>) {
    let buffer = file.next();
    Assert.equals(buffer, "@");
    const selector = file.next();
-   Assert.isAmong(selector, Commands.Selectors);
+   Assert.contains(selector, Commands.Selectors);
    buffer += selector;
    const nextChar = file.next();
    if (nextChar == " ") {
@@ -19,7 +53,7 @@ export function parseSelector(file: Iterator<string>) {
    while (true) {
       buffer = file.readUpTo("=");
 
-      Assert.isAmong(buffer, Commands.SelectorArguments);
+      Assert.contains(buffer, Commands.SelectorArguments);
 
       Assert.equals(file.next(), "=");
 

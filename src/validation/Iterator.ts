@@ -14,9 +14,26 @@ export default class Iterator<T> {
       }
    }
 
-   public readUpTo(upTo: T) {
+   public readUpTo(upTo: T, multiline = false) {
       let value = "";
-      while (this.current() != upTo) {
+      while (
+         this.current() != upTo &&
+         !this.isDone() &&
+         (this.current() != "\n" || multiline)
+      ) {
+         value += this.current();
+         this.next();
+      }
+      return value;
+   }
+
+   public readUpToAny(options: T[], multiline = false) {
+      let value = "";
+      while (
+         !options.includes(this.current()) &&
+         !this.isDone() &&
+         (this.current() != "\n" || multiline)
+      ) {
          value += this.current();
          this.next();
       }
@@ -32,7 +49,7 @@ export default class Iterator<T> {
    }
 
    public next(): T {
-      if (this.index + 1 > this.items.length) {
+      if (this.index + 1 == this.items.length) {
          this.done = true;
       }
       return this.items[this.index++];
